@@ -3,7 +3,7 @@
       <div class="flex h-16 items-center justify-between">
         <div class="flex items-center">
           <div class="flex-shrink-0">
-            <img class="h-8 w-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+            <img class="h-8 w-8" src="http://sigma.rf.gd/wp-content/uploads/2025/01/logo.png" alt="Your Company">
           </div>
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
@@ -32,7 +32,7 @@
                 <button @click="isOpen = !isOpen" type="button" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                   <span class="absolute -inset-1.5"></span>
                   <span class="sr-only">Open user menu</span>
-                  <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                  <img class="h-8 w-8 rounded-full" src="https://api.dicebear.com/9.x/identicon/png?seed={{ auth()->user()->name }}" alt="">
                 </button>
               </div>
               <div
@@ -47,8 +47,16 @@
                 <!-- Active: "bg-gray-100", Not Active: "" -->
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
-              </div>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                    @csrf
+                </form>
+
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                   class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1">
+                    Sign out
+                </a>
+
+            </div>
             </div>
           </div>
         </div>
@@ -85,7 +93,7 @@
       <div class="border-t border-gray-700 pb-3 pt-4">
         <div class="flex items-center px-5">
           <div class="flex-shrink-0">
-            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+            <img class="h-10 w-10 rounded-full" src="https://api.dicebear.com/9.x/identicon/png?seed={{ auth()->user()->name }}" alt="">
           </div>
           <div class="ml-3">
             <div class="text-base font-medium leading-none text-white">Tom Cook</div>

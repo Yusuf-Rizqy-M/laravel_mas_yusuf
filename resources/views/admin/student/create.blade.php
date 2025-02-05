@@ -13,15 +13,24 @@
 
                     <div>
                         <label for="grade" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Grade/class</label>
-                        <select id="grade_id" name="grade_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                        <select id="grade_id" name="grade_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" onchange="updateDepartment() ">
                             <option value="">Choose a grade</option>
                             @foreach($grades as $grade)
-                                <option value="{{ $grade->id }}">{{ $grade->name }}</option>
+                                <option value="{{ $grade->id }}" data-department="{{ $grade->department ? $grade->department->name : '' }}">
+                                    {{ $grade->name }}
+                                </option>
                             @endforeach
                         </select>
+
                     </div>
+
                     <div class="w-full">
-                        <label for="telepon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">phone</label>
+                        <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
+                        <input type="text" name="department" id="department" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Department will auto-filled" readonly style="cursor: not-allowed;">
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label for="telepon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
                         <input type="text" name="telepon" id="telepon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type phone number" required="">
                     </div>
 
@@ -41,4 +50,18 @@
             </form>
         </div>
     </section>
+
+    <script>
+        function updateDepartment() {
+            const gradeSelect = document.getElementById('grade_id');
+            const selectedOption = gradeSelect.options[gradeSelect.selectedIndex];
+            const departmentInput = document.getElementById('department');
+
+            const department = selectedOption.getAttribute('data-department');
+
+            departmentInput.value = department || '';
+        }
+    </script>
+
+
 </x-admin-layout>

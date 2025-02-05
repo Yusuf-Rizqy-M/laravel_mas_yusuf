@@ -38,7 +38,7 @@
         </button>
         <a href="https://flowbite.com" class="flex items-center justify-between mr-4">
           <img
-            src="https://flowbite.s3.amazonaws.com/logo.svg"
+            src="http://sigma.rf.gd/wp-content/uploads/2025/01/logo.png"
             class="mr-3 h-8"
             alt="Flowbite Logo"
           />
@@ -311,7 +311,7 @@
               <div class="flex-shrink-0">
                 <img
                   class="w-11 h-11 rounded-full"
-                  src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/robert-brown.png"
+                  src="https://api.dicebear.com/9.x/identicon/png?seed={{ auth()->user()->name }}"
                   alt="Robert image"
                 />
                 <div
@@ -600,7 +600,7 @@
           <span class="sr-only">Open user menu</span>
           <img
             class="w-8 h-8 rounded-full"
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png"
+            src="https://api.dicebear.com/9.x/identicon/png?seed={{ auth()->user()->name }}"
             alt="user photo"
           />
         </button>
@@ -612,11 +612,11 @@
           <div class="py-3 px-4">
             <span
               class="block text-sm font-semibold text-gray-900 dark:text-white"
-              >Neil Sims</span
+              > {{ auth()->user()->name }}</span
             >
             <span
               class="block text-sm text-gray-900 truncate dark:text-white"
-              >name@flowbite.com</span
+              >{{ auth()->user()->email }}</span
             >
           </div>
           <ul
@@ -720,11 +720,12 @@
             aria-labelledby="dropdown"
           >
             <li>
-              <a
-                href="#"
-                class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >Sign out</a
-              >
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit"   class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Signout</button>
+                </form>
+
+
             </li>
           </ul>
         </div>

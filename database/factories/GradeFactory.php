@@ -20,4 +20,9 @@ class GradeFactory extends Factory
             // 'name' => fake()->randomElement(['10 PPLG 1','10 PPLG 2', '11 PPLG 1','11 PPLG 2'])
         ];
     }
+
+    public function relation(){
+        $query = "select grade.id, grade.name as grade_name, department.name as department_name from grade join department on grade.department_id = department.id";
+        return $query;
+    }
 }

@@ -40,8 +40,24 @@ class GradeAdminController extends Controller
         // Validasi data yang dikirimkan
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'department_id' => 'required|exists:departments,id',
+            'department_id' => 'nullable|exists:departments,id', // Optional jika otomatis
         ]);
+
+        // Jika department_id tidak diisi, otomatis pilih berdasarkan logika tertentu
+        if (!$validated['department_id']) {
+            // Contoh logika otomatis, cari department berdasarkan nama grade
+            $department = Department::where('name', 'LIKE', '%' . $validated['name'] . '%')->first();
+
+            // Jika department ditemukan, set department_id
+            if ($department) {
+                $validated['department_id'] = $department->id;
+            } else {
+                // Jika tidak ditemukan, pilih default department atau buat error
+                return redirect()->back()->withErrors([
+                    'department_id' => 'No matching department found for the grade name.'
+                ]);
+            }
+        }
 
         // Simpan data grade ke dalam tabel grades
         $grade = Grade::create([
@@ -88,11 +104,27 @@ class GradeAdminController extends Controller
         // Validasi data yang dikirimkan
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'department_id' => 'required|exists:departments,id',
+            'department_id' => 'nullable|exists:departments,id', // Optional jika otomatis
         ]);
 
         // Cari data grade berdasarkan ID
         $grade = Grade::findOrFail($id);
+
+        // Jika department_id tidak diisi, otomatis pilih berdasarkan logika tertentu
+        if (!$validated['department_id']) {
+            // Contoh logika otomatis, cari department berdasarkan nama grade
+            $department = Department::where('name', 'LIKE', '%' . $validated['name'] . '%')->first();
+
+            // Jika department ditemukan, set department_id
+            if ($department) {
+                $validated['department_id'] = $department->id;
+            } else {
+                // Jika tidak ditemukan, pilih default department atau buat error
+                return redirect()->back()->withErrors([
+                    'department_id' => 'No matching department found for the grade name.'
+                ]);
+            }
+        }
 
         // Update data grade
         $grade->update([
@@ -109,13 +141,13 @@ class GradeAdminController extends Controller
      */
     public function destroy(string $id)
     {
-        // // Cari data grade berdasarkan ID
-        // $grade = Grade::findOrFail($id);
+        // Cari data grade berdasarkan ID
+        $grade = Grade::findOrFail($id);
 
-        // // Hapus data grade
-        // $grade->delete();
+        // Hapus data grade
+        $grade->delete();
 
-        // // Redirect kembali dengan pesan sukses
-        // return redirect('/admin/grades')->with('success', 'Grade deleted successfully.');
+        // Redirect kembali dengan pesan sukses
+        return redirect('/admin/grades')->with('success', 'Grade deleted successfully.');
     }
 }

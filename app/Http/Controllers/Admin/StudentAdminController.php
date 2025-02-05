@@ -15,7 +15,7 @@ class StudentAdminController extends Controller
         /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $students = Student::with('grade')->latest()->get();
         return view('admin.student.index', compact('students'), [
@@ -23,6 +23,7 @@ class StudentAdminController extends Controller
             'students' => $students
             // 'students' => $students
         ]);
+        
     }
 
     /**
