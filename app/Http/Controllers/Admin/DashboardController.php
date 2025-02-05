@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Grade;
+use App\Models\Student;
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -12,7 +15,10 @@ class DashboardController extends Controller
      */
     public function index() {
         return view('admin.dashboard.index', [
-            'title' => 'Dashboard'
+            'title' => 'Dashboard',
+            'totalStudents' => Student::count(),
+            'totalGrades' => Grade::count(),
+            'totalDepartments' => Department::count(),
         ]);
     }
 

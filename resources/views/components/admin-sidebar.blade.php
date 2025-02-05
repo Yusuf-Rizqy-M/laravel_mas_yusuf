@@ -35,7 +35,7 @@
         <ul class="space-y-2">
           <li>
             <a
-              href="/dashboard"
+              href="/admin/dashboard"
               class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               <svg
@@ -90,13 +90,13 @@
             </button>
             <ul id="dropdown-pages" class="hidden py-2 space-y-2">
               <li>
-                <x-side-link href="/students-admin" :active="request()->is('students-admin')">Student</x-side-link>
+                <x-side-link href="/admin/students" :active="request()->is('students-admin')">Student</x-side-link>
               </li>
               <li>
-                <x-side-link href="/grades-admin" :active="request()->is('grades-admin')">Grade</x-side-link>
+                <x-side-link href="/admin/grades" :active="request()->is('grades-admin')">Grade</x-side-link>
               </li>
               <li>
-                <x-side-link href="/departments-admin" :active="request()->is('departments-admin')">Department</x-side-link>
+                <x-side-link href="/admin/departments" :active="request()->is('departments-admin')">Department</x-side-link>
               </li>
             </ul>
           </li>

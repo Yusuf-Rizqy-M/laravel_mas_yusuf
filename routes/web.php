@@ -10,66 +10,56 @@ use App\Http\Controllers\Admin\GradeAdminController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\Admin\StudentAdminController;
+use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', [HomeController::class, 'index']);
-Route::get('/dashboard', [DashboardController::class, 'index']);
-
-
-Route::get('/contact', [ContactController::class, 'index']);
-
-Route::get('/students', [StudentController::class, 'index']);
-Route::get('/students-admin', [StudentAdminController::class, 'index']);
-
-Route::get('/grades', [GradeController::class, 'index']);
-Route::get('/grades-admin', [GradeAdminController::class, 'index']);
-
-Route::get('/departments', [DepartmentController::class, 'index']);
-Route::get('/departments-admin', [DepartmentAdminController::class, 'index']);
-
-Route::prefix('students')->group(function () {
-    Route::get('/', [StudentController::class, 'index']);
-    Route::get('/{student}', [StudentController::class, 'show']);
+Route::get('/error', function () {
+    return view('error');
 });
 
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index']);
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::prefix('students')->group(function () {
-        Route::get('/', [\App\Http\Controllers\Admin\StudentAdminController::class, 'index']);
-        Route::get('/create', [\App\Http\Controllers\Admin\StudentAdminController::class, 'create']);
-        Route::post('/store', [\App\Http\Controllers\Admin\StudentAdminController::class, 'store']);
-        Route::get('/edit/{student}', [\App\Http\Controllers\Admin\StudentAdminController::class, 'edit']);
-        Route::put('/update/{student}', [\App\Http\Controllers\Admin\StudentAdminController::class, 'update']);
-        Route::delete('/delete/{student}', [\App\Http\Controllers\Admin\StudentAdminController::class, 'destroy']);
-    });
-});
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [HomeController::class, 'index']);
+    Route::get('/contact', [ContactController::class, 'index']);
+    Route::get('/students', [StudentController::class, 'index']);
+    Route::get('/grades', [GradeController::class, 'index']);
+    Route::get('/departments', [DepartmentController::class, 'index']);
 
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index']);
+    // Rute khusus admin dengan middleware 'admin'
+    Route::middleware(['admin'])->prefix('admin')->group(function () {
+        Route::get('dashboard', [DashboardController::class, 'index']);
 
-    Route::prefix('grades')->group(function () {
-        Route::get('/', [\App\Http\Controllers\Admin\GradeAdminController::class, 'index']);
-        Route::get('/create', [\App\Http\Controllers\Admin\GradeAdminController::class, 'create']);
-        Route::post('/store', [\App\Http\Controllers\Admin\GradeAdminController::class, 'store']);
-        Route::get('/edit/{grades}', [\App\Http\Controllers\Admin\GradeAdminController::class, 'edit'])
-            ->name('admin.grade.edit');
-        Route::put('/update/{grades}', [\App\Http\Controllers\Admin\GradeAdminController::class, 'update']);
-    });
-});
+        Route::prefix('students')->group(function () {
+            Route::get('/', [StudentAdminController::class, 'index']);
+            Route::get('/create', [StudentAdminController::class, 'create']);
+            Route::post('/store', [StudentAdminController::class, 'store']);
+            Route::get('/edit/{student}', [StudentAdminController::class, 'edit']);
+            Route::put('/update/{student}', [StudentAdminController::class, 'update']);
+            Route::delete('/delete/{student}', [StudentAdminController::class, 'destroy']);
+        });
 
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index']);
+        Route::prefix('grades')->group(function () {
+            Route::get('/', [GradeAdminController::class, 'index']);
+            Route::get('/create', [GradeAdminController::class, 'create']);
+            Route::post('/store', [GradeAdminController::class, 'store']);
+            Route::get('/edit/{grades}', [GradeAdminController::class, 'edit'])->name('admin.grade.edit');
+            Route::put('/update/{grades}', [GradeAdminController::class, 'update']);
+        });
 
-    Route::prefix('departments')->group(function () {
-        Route::get('/', [\App\Http\Controllers\Admin\DepartmentAdminController::class, 'index']);
-        Route::get('/create', [\App\Http\Controllers\Admin\DepartmentAdminController::class, 'create']);
-        Route::post('/store', [\App\Http\Controllers\Admin\DepartmentAdminController::class, 'store']);
-        Route::get('/edit/{department}', [\App\Http\Controllers\Admin\DepartmentAdminController::class, 'edit'])
-            ->name('admin.department.edit');
-        Route::put('/update/{department}', [\App\Http\Controllers\Admin\DepartmentAdminController::class, 'update']);
+        Route::prefix('departments')->group(function () {
+            Route::get('/', [DepartmentAdminController::class, 'index']);
+            Route::get('/create', [DepartmentAdminController::class, 'create']);
+            Route::post('/store', [DepartmentAdminController::class, 'store']);
+            Route::get('/edit/{department}', [DepartmentAdminController::class, 'edit'])->name('admin.department.edit');
+            Route::put('/update/{department}', [DepartmentAdminController::class, 'update']);
+        });
     });
 });

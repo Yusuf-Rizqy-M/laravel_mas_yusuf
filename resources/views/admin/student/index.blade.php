@@ -225,6 +225,32 @@
 
 
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById("default-search");
+
+            searchInput.addEventListener("keyup", function() {
+                let filter = searchInput.value.toLowerCase();
+                let rows = document.querySelectorAll("tbody tr");
+
+                rows.forEach(row => {
+                    let name = row.cells[1].textContent.toLowerCase();
+                    let grade = row.cells[2].textContent.toLowerCase();
+                    let department = row.cells[3].textContent.toLowerCase();
+                    let email = row.cells[4].textContent.toLowerCase();
+                    let phone = row.cells[5].textContent.toLowerCase(); // Menambahkan pencarian berdasarkan telepon
+                    let address = row.cells[6].textContent.toLowerCase();
+
+                    if (name.includes(filter) || grade.includes(filter) || department.includes(filter) ||
+                        email.includes(filter) || phone.includes(filter) || address.includes(filter)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+            });
+        });
+
+
         document.addEventListener("DOMContentLoaded", function (event) {
             // Ambil semua tombol dengan kelas .modalDetailBtn
             const modalDetailBtns = document.querySelectorAll('.modalDetailBtn');
